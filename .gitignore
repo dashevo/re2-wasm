@@ -1,2 +1,5 @@
 node_modules
 build
+.idea
+wasm/re2.js
+wasm/re2.wasm
