@@ -9,7 +9,7 @@ const codeToPaste = `
 var wasmBinaryFile = "re2.wasm";
 
 if (typeof window === "object") {
-  const buf = Buffer.from("${wasmBase64}", "base64");
+  var buf = Buffer.from("${wasmBase64}", "base64");
   var blob = new Blob([buf], { type: "application/wasm" });
   wasmBinaryFile = URL.createObjectURL(blob);
   scriptDirectory = '';
