@@ -224,17 +224,19 @@ matched groups, like so: `\1`, `\2`, and so on. Example of backrefrences:
 Here is an example of a case where they may not:
 
 ```js
-var { RE2 }  = require("re2-wasm");
+const RE2Loader = require("re2-wasm").default;
 
-var pattern = '(?:(a)|(b)|(c))+';
+const RE2 = await RE2Loader();
 
-var built_in = new RegExp(pattern);
-var re2 = new RE2(pattern, 'u');
+const pattern = '(?:(a)|(b)|(c))+';
 
-var input = 'abc';
+const built_in = new RegExp(pattern);
+const re2 = new RE2(pattern, 'u');
 
-var bi_res = built_in.exec(input);
-var re2_res = re2.exec(input);
+const input = 'abc';
+
+const bi_res = built_in.exec(input);
+const re2_res = re2.exec(input);
 
 console.log('bi_res: ' + bi_res);    // prints: bi_res: abc,,,c
 console.log('re2_res : ' + re2_res); // prints: re2_res : abc,a,b,c

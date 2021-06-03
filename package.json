@@ -1,5 +1,5 @@
 {
-  "name": "re2-wasm",
+  "name": "@dashevo/re2-wasm",
   "version": "1.0.1",
   "keywords": [
     "regexp",
@@ -16,8 +16,8 @@
     "lint": "gts lint src/*.ts",
     "clean": "gts clean",
     "compile": "make -j12 && tsc && cp -r wasm build/",
+    "patch": "node ./bundle_wasm_for_web.js",
     "fix": "gts fix src/*.ts",
-    "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run lint"
   },
