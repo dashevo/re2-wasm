@@ -18,6 +18,8 @@ jobs:
           version: 2.0.9
           no-cache: true
       - run: npm install
+      - run: npm run compile
       - run: npm publish
+      - run: npm run patch
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
