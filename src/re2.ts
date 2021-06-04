@@ -15,7 +15,7 @@
 
 // eslint-disable-next-line node/no-unpublished-import
 import {WrappedRE2, InternalMatchResult} from '../wasm/re2.js';
-// eslint-disable-next-line node/no-unpublished-import
+// eslint-disable-next-line node/no-unpublished-require
 const asyncWrappedWasm = require('../wasm/re2.js');
 
 export interface RE2ExecArray extends Array<string | undefined> {
