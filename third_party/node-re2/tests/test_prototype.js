@@ -2,7 +2,6 @@
 
 
 var unit = require("heya-unit");
-var RE2  = require("../../..").RE2;
 
 
 // tests

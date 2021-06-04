@@ -2,7 +2,6 @@
 
 const {Worker, isMainThread} = require('worker_threads');
 
-var RE2  = require("../../..").RE2;
 
 if (isMainThread) {
   // This re-loads the current file inside a Worker instance.
