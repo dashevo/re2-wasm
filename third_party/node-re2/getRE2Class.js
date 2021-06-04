@@ -1,19 +1,21 @@
-const EventEmitter = require('events');
-const RE2Loader = require("../../").default;
+var EventEmitter = require('events');
+var RE2Loader = require("../../").default;
 
-const eventNames = {
+var eventNames = {
   LOADED_EVENT: 'LOADED',
 };
 
-const events = new EventEmitter();
-let isLoading = false;
-let instance = null;
+var events = new EventEmitter();
+var isLoading = false;
+var instance = null;
 
 async function compileWasmModule() {
   isLoading = true;
-  instance = await RE2Loader();
-  isLoading = false;
-  events.emit(eventNames.LOADED_EVENT);
+  return RE2Loader().then((loadedInstance) => {
+    instance = loadedInstance;
+    isLoading = false;
+    events.emit(eventNames.LOADED_EVENT);
+  });
 }
 
 /**

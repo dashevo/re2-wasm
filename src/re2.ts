@@ -15,6 +15,7 @@
 
 // eslint-disable-next-line node/no-unpublished-import
 import {WrappedRE2, InternalMatchResult} from '../wasm/re2.js';
+// eslint-disable-next-line node/no-unpublished-import
 const asyncWrappedWasm = require('../wasm/re2.js');
 
 export interface RE2ExecArray extends Array<string | undefined> {
@@ -149,7 +150,7 @@ function escapeRegExp(pattern: string): string {
   return pattern.replace(/(^|[^\\])((?:\\\\)*)\//g, '$1$2\\/');
 }
 
-let compiledWasm: unknown;
+let compiledWasm: any;
 
 /* This class should implement the RegExp interface, but it can't because of
  * https://github.com/microsoft/TypeScript/issues/42307 */
@@ -163,7 +164,6 @@ class RE2 {
   lastIndex = 0;
 
   private pattern = '(?:)';
-  // @ts-ignore
   private wrapper: WrappedRE2;
 
   private groupNames: {[group: number]: string} = {};
@@ -215,7 +215,6 @@ class RE2 {
       );
     }
     this.pattern = pattern;
-    // @ts-ignore
     this.wrapper = new compiledWasm.WrappedRE2(
       translateRegExp(pattern, this._multiline),
       this._ignoreCase,
