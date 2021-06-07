@@ -593,14 +593,14 @@ class RE2 {
 
 export default async function InitializeRe2() {
   if (!compiledWasm) {
-    compiledWasm = await new Promise(resolve => {
+    await new Promise<void>(resolve => {
       if (isLoading) {
         events.once(LOADED_EVENT, () => {
-          resolve(compiledWasm);
+          resolve();
         });
       } else {
         compileWasmModule().then(() => {
-          resolve(compiledWasm);
+          resolve();
         });
       }
     });
