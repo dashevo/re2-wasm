@@ -13,6 +13,8 @@
  *   limitations under the License.
  */
 
+import {EventEmitter} from 'events';
+
 // eslint-disable-next-line node/no-unpublished-import
 import {WrappedRE2, InternalMatchResult} from '../wasm/re2.js';
 // eslint-disable-next-line node/no-unpublished-require
@@ -37,8 +39,21 @@ export interface RE2MatchArray extends Array<string | undefined> {
 const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const HEX = '0123456789ABCDEF';
 
+const LOADED_EVENT = 'LOADED';
+const events = new EventEmitter();
+let compiledWasm: any;
+
+let isLoading = false;
+
 function isHexadecimal(char: string): boolean {
   return HEX.indexOf(char.toUpperCase()) !== -1;
+}
+
+async function compileWasmModule() {
+  isLoading = true;
+  compiledWasm = await asyncWrappedWasm();
+  isLoading = false;
+  events.emit(LOADED_EVENT);
 }
 
 /**
@@ -149,8 +164,6 @@ function translateRegExp(pattern: string, multiline: boolean): string {
 function escapeRegExp(pattern: string): string {
   return pattern.replace(/(^|[^\\])((?:\\\\)*)\//g, '$1$2\\/');
 }
-
-let compiledWasm: any;
 
 /* This class should implement the RegExp interface, but it can't because of
  * https://github.com/microsoft/TypeScript/issues/42307 */
@@ -579,7 +592,19 @@ class RE2 {
 }
 
 export default async function InitializeRe2() {
-  compiledWasm = await asyncWrappedWasm();
+  if (!compiledWasm) {
+    await new Promise<void>(resolve => {
+      if (isLoading) {
+        events.once(LOADED_EVENT, () => {
+          resolve();
+        });
+      } else {
+        compileWasmModule().then(() => {
+          resolve();
+        });
+      }
+    });
+  }
 
   return RE2;
 }
