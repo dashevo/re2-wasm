@@ -79,6 +79,9 @@ jobs:
           version: 2.0.9
           no-cache: true
 
+      - name: Initialize git submodules
+        run: git submodule update --init --recursive
+
       - name: Install NPM dependencies
         run: npm ci
 
