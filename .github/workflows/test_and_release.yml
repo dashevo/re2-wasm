@@ -7,7 +7,7 @@ on:
       - published
   pull_request:
     branches:
-      - master
+      - main
       - v[0-9]+.[0-9]+-dev
 
 jobs:
@@ -37,6 +37,9 @@ jobs:
         with:
           version: 2.0.9
           no-cache: true
+
+      - name: Initialize git submodules
+        run: git submodule update --init --recursive
 
       - name: Install NPM dependencies
         run: npm ci
@@ -75,6 +78,9 @@ jobs:
         with:
           version: 2.0.9
           no-cache: true
+
+      - name: Initialize git submodules
+        run: git submodule update --init --recursive
 
       - name: Install NPM dependencies
         run: npm ci
